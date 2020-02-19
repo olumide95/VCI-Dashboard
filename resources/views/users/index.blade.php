@@ -54,8 +54,8 @@
 													<ul class="dropdown-menu pull-right">
 														<li>
 													<a  href="{{route('users.edit',$user->id)}}"><i class="fa fa-pencil m-r-5"></i> Update</a>
-													<a  href="{{route('users.destroy',$user->id)}}" onclick="event.preventDefault(); document.getElementById('delete-form').submit();"><i class="fa fa-pencil m-r-5"></i> Delete</a>
-                                                    <form id="delete-form" action="{{route('users.destroy',$user->id)}}" method="POST" style="display: none;">
+													<a  href="{{route('users.destroy',$user->id)}}" onclick="event.preventDefault(); document.getElementById('delete-form-{{$user->id}}').submit();"><i class="fa fa-pencil m-r-5"></i> Delete</a>
+                                                    <form id="delete-form-{{$user->id}}" action="{{route('users.destroy',$user->id)}}" method="POST" style="display: none;">
 															 {{ method_field('DELETE') }}
 																{{ csrf_field() }}
 													</form>

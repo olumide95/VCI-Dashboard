@@ -56,13 +56,22 @@ class OrganisationController extends Controller
                    
 				});
 
+				 
+				Mail::send(['html' => 'emails.new-request'], array('organisation' =>$organisation->name,'type' => $type,'details'=>$data ),function($message) use($request){
+                    $message->from('no-reply@verifycustomerinfo.com', 'Verify Customer Info');
+                    $message->subject('Hello '.$request->requester.', Your request has been sent');
+
+					$message->to($request->requester_email);
+                   
+				});
+
 
 				Mail::send(['html' => 'emails.new-request'], array('organisation' =>$organisation->name,'type' => $type,'details'=>$data ),function($message) use($organisation){
                     $message->from('no-reply@verifycustomerinfo.com', 'Verify Customer Info');
                     $message->subject('New Inspection Request from '.$organisation->name);
-					$message->to('oladele.akinsanya@ojasquare.org');
+					$message->to('info@verifycustomerinfo.com');
                    
-				});
+				}); 
 				
 
 				return redirect('/requests/all')->with('success','Request submitted Successfully');
@@ -123,19 +132,27 @@ class OrganisationController extends Controller
 				 
 				Mail::send(['html' => 'emails.new-request'], array('organisation' =>$organisation->name,'type' => $type,'details'=>$data ),function($message) use($organisation){
 					$message->from('no-reply@verifycustomerinfo.com', 'Verify Customer Info');
-					$message->subject('Hello '.$organisation->name.', You just updated a request');
+					$message->subject('Hello '.$organisation->name.', Your request has been updated');
 
 					$message->to($organisation->email);
 					
 				});
 
+				Mail::send(['html' => 'emails.new-request'], array('organisation' =>$organisation->name,'type' => $type,'details'=>$data ),function($message) use($inspectionRquest){
+                    $message->from('no-reply@verifycustomerinfo.com', 'Verify Customer Info');
+                    $message->subject('Hello '.$inspectionRquest->requester.', Your request has been updated');
 
-				Mail::send(['html' => 'emails.new-request'], array('organisation' =>$organisation->name,'type' => $type,'details'=>$data ),function($message) use($organisation){
+					$message->to($inspectionRquest->requester_email);
+                   
+				});
+
+
+				 Mail::send(['html' => 'emails.new-request'], array('organisation' =>$organisation->name,'type' => $type,'details'=>$data ),function($message) use($organisation){
 					$message->from('no-reply@verifycustomerinfo.com', 'Verify Customer Info');
 					$message->subject('Inspection Request for '.$organisation->name);
-					$message->to('oladele.akinsanya@ojasquare.org');
+					$message->to('info@verifycustomerinfo.com');
 					
-				});
+				}); 
 				
 				if(Auth::user()->isOrganisation()){
 
@@ -173,6 +190,15 @@ class OrganisationController extends Controller
 				$message->to($organisation->email);
                    
 		});
+
+		Mail::send(['html' => 'emails.new-request'], array('organisation' =>$organisation->name,'type' => $type,'details'=>$data ),function($message) use($request){
+                    $message->from('no-reply@verifycustomerinfo.com', 'Verify Customer Info');
+                    $message->subject('Your request has been completed');
+
+					$message->to($request->requester_email);
+                   
+		});
+
 		return redirect('admin/requests')->with('success','Status updated Successfully');
 	}
 

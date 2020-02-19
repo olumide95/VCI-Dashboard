@@ -27,6 +27,8 @@
 										<tr>
 											<th>S/N</th>
 											<th >Type</th>
+											<th>Contact Person</th>
+											<th>Contact Phone</th>
 											<th>Details</th>
                                             <th>Inspection Date</th>
                                             <th>Inspection Time</th>
@@ -39,8 +41,9 @@
 										<tr>
 											<td>{{  $key+1 }}</td>
 											<td>{{ $request->type == 1 ? 'Vehicle Inspection' : 'Property Inspection' }}</td>
-                                            
-											<td>@foreach ($request->details as $key => $detail) {{ ucwords(str_replace('_',' ',$key)) }} :  <b style="color:red">{{ $detail }} </b>@endforeach</td>
+                                            <td>{{ $request->contact_person }}</td>
+											<td>{{ $request->contact_phone }}</td>
+											<td>@foreach ($request->details as $key => $detail) {{ ucwords(str_replace('_',' ',$key)) }} :  <b style="color:red">{{ $detail }} </b>  @endforeach</td>
 											
 											<td>{{ $request->agreed_inspection_date }}</td>
 											<td>{{ $request->agreed_inspection_time}}</td>
@@ -52,8 +55,8 @@
 													<ul class="dropdown-menu pull-right">
 														<li>
 													<a  href="{{route('request-update',$request->id)}}"><i class="fa fa-pencil m-r-5"></i> Update</a>
-													<a  href="{{route('request-delete',$request->id)}}" onclick="event.preventDefault(); document.getElementById('delete-form').submit();"><i class="fa fa-pencil m-r-5"></i> Delete</a>
-                                                    <form id="delete-form" action="{{route('request-delete',$request->id)}}" method="POST" style="display: none;">
+													<a  href="{{route('request-delete',$request->id)}}" onclick="event.preventDefault(); document.getElementById('delete-form-{{$request->id}}').submit();"><i class="fa fa-pencil m-r-5"></i> Delete</a>
+                                                    <form id="delete-form-{{$request->id}}" action="{{route('request-delete',$request->id)}}" method="POST" style="display: none;">
 															 {{ method_field('DELETE') }}
 																{{ csrf_field() }}
 													</form>
