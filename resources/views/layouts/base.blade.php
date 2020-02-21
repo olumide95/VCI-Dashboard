@@ -23,6 +23,24 @@
         <link rel="stylesheet" type="text/css" href="/plugins/summernote/dist/summernote.css">
         <link rel="stylesheet" type="text/css" href="/css/dataTables.bootstrap.min.css">
 		<link href="/css/toastr.min.css" rel="stylesheet"/>
+		<style>
+				
+		@media only screen and (min-width: 768px){
+		.modal-open .modal.custom-modal {
+				left: 280px;
+				top: 10%;
+			}
+
+			.modal {			
+				right: 15% !important;
+				bottom:25% !important;
+			}
+
+		}
+
+		
+	</style>
+		 
     </head>
     <body>
         <div class="main-wrapper">

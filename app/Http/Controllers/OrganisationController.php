@@ -182,22 +182,36 @@ class OrganisationController extends Controller
 			$type = 'Property Inspection';
 		}
 
-		$request->update(['status'=>'completed']);
-		Mail::send(['html' => 'emails.completed-request'], array('organisation' =>$organisation->name,'type' => $type,'details'=>$request ),function($message) use($organisation){
-				$message->from('no-reply@verifycustomerinfo.com', 'Verify Customer Info');
-				$message->subject('Your request has been completed');
+		if($request->status == 'pending'){
+			
+			$request->update(['status'=>'Accepted']);
 
-				$message->to($organisation->email);
-                   
-		});
-
-		Mail::send(['html' => 'emails.new-request'], array('organisation' =>$organisation->name,'type' => $type,'details'=>$data ),function($message) use($request){
+			Mail::send(['html' => 'emails.new-request'], array('organisation' =>$organisation->name,'type' => $type,'details'=>$request ),function($message) use($request){
                     $message->from('no-reply@verifycustomerinfo.com', 'Verify Customer Info');
-                    $message->subject('Your request has been completed');
+                    $message->subject('Your request has been '.$request->status);
 
 					$message->to($request->requester_email);
                    
+			});
+		}
+
+		if($request->status == 'Accepted'){
+			$request->update(['status'=>'Completed']);
+		}
+		
+		$data = [];
+		$data['email'] = $organisation->email;
+		$data['status'] = $request->status;
+
+		Mail::send(['html' => 'emails.completed-request'], array('organisation' =>$organisation->name,'type' => $type,'details'=>$request ),function($message) use($data){
+				$message->from('no-reply@verifycustomerinfo.com', 'Verify Customer Info');
+				$message->subject('Your request has been '.$data->status);
+
+				$message->to($data->email);
+                   
 		});
+
+		
 
 		return redirect('admin/requests')->with('success','Status updated Successfully');
 	}

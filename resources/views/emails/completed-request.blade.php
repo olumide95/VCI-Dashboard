@@ -134,7 +134,7 @@
 								<tr>
 									<td class="head-title" style="border-collapse: collapse;border: 0;margin: 0;padding: 0;-webkit-text-size-adjust: none;color: #555559;font-family: Arial, sans-serif;font-size: 28px;line-height: 34px;font-weight: bold; text-align: center;">
 										<div class="mktEditable" id="main_title">
-											Hello, {{$organisation}}. Your requested inspection has been completed.
+											Hello, {{$organisation}}. Your requested inspection has been {{$details->status}}.
 										</div>
 									</td>
 								</tr>
