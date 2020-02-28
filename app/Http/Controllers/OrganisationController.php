@@ -5,7 +5,7 @@ use Mail;
 use Illuminate\Http\Request;
 use DB;
 use App\Http\Requests; 
-use App\requester;
+use App\Requester;
 use App\Report;
 use App\User;
 use App\InspectionRequest;
