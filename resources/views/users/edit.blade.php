@@ -63,6 +63,25 @@
                             </div>
                         </div>
 
+                        <div id="organisation" class="form-group{{ $errors->has('organisation') ? ' has-error' : '' }}" style="display:none" >
+                            <label for="name" class="col-md-4 control-label">Organisation</label>
+
+                            <div class="col-md-6">
+
+                            <select class="form-control" type="text" name="organisation" required>
+                                <option value="">select Organisation</option>
+                                @foreach($organisations as $organisation) 
+								 <option value="{{$organisation->user_id}}" @if($organisation_id == $organisation->user_id) {{'selected'}} @endif >{{$organisation->name}}</option>
+                                @endforeach
+											
+							 </select>
+                              @if ($errors->has('organisation'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('organisation') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
                     
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
@@ -115,5 +134,26 @@
         </div>
 
 			
+
+@endsection
+
+
+@section('page_scripts')
+<script>
+
+$( document ).ready(function() {
+    var organisation = document.getElementById('organisation');
+        if('{{$userRole['Requester'] ?? ''}}' == 'Requester'){
+            
+            organisation.style.display='block';
+        }
+        else{
+             organisation.style.display='none';
+        }
+});
+	 
+</script>
+
+
 
 @endsection

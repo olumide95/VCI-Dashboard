@@ -5,6 +5,8 @@ use Mail;
 use Illuminate\Http\Request;
 use DB;
 use App\Http\Requests; 
+use App\requester;
+use App\Report;
 use App\User;
 use App\InspectionRequest;
 use App\Organisation;
@@ -42,7 +44,16 @@ class OrganisationController extends Controller
 				unset($details['_token']);
 
 				$data['details'] = $details;
-				$data['organisation_id'] = Auth::user()->id;
+
+				if(Auth::user()->isOrganisation()){
+
+					$data['organisation_id'] = Auth::user()->id;
+
+				}
+				else if(Auth::user()->isRequester()){
+					$data['organisation_id'] = Auth::user()->requester->organisation->user_id;
+				}
+				
 				
 				//return  var_dump($request->all());
 				$request = InspectionRequest::create($data);
@@ -114,10 +125,18 @@ class OrganisationController extends Controller
 
 
 				
-
 				if(Auth::user()->isOrganisation()){
 
-					if(Auth::user()->id != $inspectionRquest->organisation_id){
+					$organisation_id = Auth::user()->id;
+
+				}
+				else if(Auth::user()->isRequester()){
+					$organisation_id = Auth::user()->requester->organisation->user_id;
+				}
+
+				if(Auth::user()->isOrganisation() || Auth::user()->isRequester()){
+
+					if($organisation_id != $inspectionRquest->organisation_id){
 						return 'You are not allowed to modify this request.';
 					}
 
@@ -152,9 +171,9 @@ class OrganisationController extends Controller
 					$message->subject('Inspection Request for '.$organisation->name);
 					$message->to('info@verifycustomerinfo.com');
 					
-				}); 
+				});  
 				
-				if(Auth::user()->isOrganisation()){
+				if(Auth::user()->isOrganisation() || Auth::user()->isRequester()){
 
 					return redirect('requests/all')->with('success','Request updated Successfully');
 				}
@@ -168,9 +187,28 @@ class OrganisationController extends Controller
 	}
 
 	public function requests() {
-		$requests = InspectionRequest::where('organisation_id',Auth::user()->id)->orderBy('created_at','Desc')->get();
+
+		if(Auth::user()->isRequester()){
+
+           $id = Auth::user()->requester->organisation->user_id;
+        }
+        else{
+
+            $id = Auth::user()->id;
+        }
+		$requests = InspectionRequest::where('organisation_id',$id)->orderBy('created_at','Desc')->get();
     	return view('organisations.requests',['requests'=>$requests]);
-   	}
+	}
+	   
+
+	public function requesters()
+	{
+		
+		$requesters = Requester::where('organisation_id',Auth::user()->id)->with('user')->orderBy('created_at','Desc')->get();
+		 
+		return view('organisations.requesters',['requesters'=>$requesters]);
+	
+	}
 
 
 	public function updateStatus($id)
@@ -183,7 +221,7 @@ class OrganisationController extends Controller
 		}
 
 		if($request->status == 'pending'){
-			
+
 			$request->update(['status'=>'Accepted']);
 
 			Mail::send(['html' => 'emails.new-request'], array('organisation' =>$organisation->name,'type' => $type,'details'=>$request ),function($message) use($request){
@@ -205,9 +243,9 @@ class OrganisationController extends Controller
 
 		Mail::send(['html' => 'emails.completed-request'], array('organisation' =>$organisation->name,'type' => $type,'details'=>$request ),function($message) use($data){
 				$message->from('no-reply@verifycustomerinfo.com', 'Verify Customer Info');
-				$message->subject('Your request has been '.$data->status);
+				$message->subject('Your request has been '.$data['status']);
 
-				$message->to($data->email);
+				$message->to($data['email']);
                    
 		});
 
@@ -226,9 +264,18 @@ class OrganisationController extends Controller
     {
 		if(Auth::user()->isOrganisation()){
 
+			$organisation_id = Auth::user()->id;
+
+		}
+		else if(Auth::user()->isRequester()){
+			$organisation_id = Auth::user()->requester->organisation->user_id;
+		}
+
+		if(Auth::user()->isOrganisation() || Auth::user()->isRequester()){
+
 			 $request = InspectionRequest::find($id);
 			 
-			 if($request->organisation_id == Auth::user()->id) {
+			 if($request->organisation_id == $organisation_id) {
 				 $request->delete();
 			 }
 			return redirect('requests/all')->with('success','Request deleted Successfully');
@@ -239,6 +286,19 @@ class OrganisationController extends Controller
 			return redirect('admin/requests')->with('success','Request deleted Successfully');
 		}
         
+	}
+
+
+	public function view_report (Request $request){
+		
+		$ins_request = InspectionRequest::find($request->r_id);
+		$report = Report::where('request_id',$request->r_id)->latest()->first();
+
+		if(!isset($report->id)){
+			return redirect()->back()->with('error',"Report doesn't exist for this request");
+		}
+		
+		return view('report',compact('report','ins_request'));
 	}
 
 	

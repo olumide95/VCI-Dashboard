@@ -17,6 +17,10 @@
 							<li class="@yield('organisations-requests_active')"> 
 								<a href="{{route ('organisations-requests')}}"><i class="la la-dashboard"></i> <span>Requests</span></a>
 							</li>
+
+							<li class="@yield('add-report_active')"> 
+								<a href="{{route ('add-report')}}"><i class="la la-dashboard"></i> <span>Add Report</span></a>
+							</li>
 							
 							
 							

@@ -28,6 +28,14 @@ class UserTableSeeder extends Seeder
                     'role' => 'Organisation' 
                   ],
 
+                  [ 
+
+                    'name'=>'Inspecto K',
+                    'email' => 'inspector@vci.com',
+                    'password' =>'password',
+                    'role' => 'Inspector' 
+                  ],
+
                     
 
                      ];

@@ -1,7 +1,7 @@
 
 @extends('layouts.base')
 
-@section('home_active', 'active')
+@section('admin-dashboard_active', 'active')
 
 @section('content')
 
@@ -32,7 +32,7 @@
                                 <div class="dash-widget-info">
                                     <h3>{{$admins}} </h3>
                                     <span> Admins </span>
-                                    
+                                    <h5></h5>
                                 </div>
                             </div>
                         </div>  
@@ -42,6 +42,8 @@
                                 <div class="dash-widget-info">
                                     <h3>{{ $organisations }}</h3>
                                     <span>Organisations</span>
+                                     <h5><span class="text-danger">Requesters - ({{ $requesters }}) </span>  </h5>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -51,6 +53,7 @@
                                 <div class="dash-widget-info">
                                     <h3>{{$pending_request}}</h3>
                                     <span>Pending Request(s)</span>
+                                     <h5></h5>
                                 </div>
                             </div>
                         </div> 
@@ -60,6 +63,7 @@
                                 <div class="dash-widget-info">
                                     <h3>{{$completed_request}}</h3>
                                     <span>Completed Request(s)</span>
+                                    <h5></h5>
                                 </div>
                             </div>
                         </div> 

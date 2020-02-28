@@ -15,6 +15,11 @@
 									<li><a class="@yield('add-request_active')" href="{{route('add-request')}}">New Request</a></li>
 								</ul>
 							</li>
+
+
+							<li class="@yield('requesters_active')"> 
+								<a href="{{route ('requesters')}}"><i class="la la-user"></i> <span>Requesters</span></a>
+							</li>
 							
 						</ul>
 					</div>

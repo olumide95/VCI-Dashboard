@@ -1,7 +1,7 @@
 
 @extends('organisations.organisations')
 
-@section('title', '| Add Employee')
+@section('title', '| Update Request')
 
 @section('add-request_active', 'active')
 
@@ -38,6 +38,7 @@
 										</div>
 									</div>
 									
+									@if(Auth::user()->isOrganisation())
 									<div class="col-sm-6">
 										<div class="form-group">
 											<label class="control-label">Requester <span class="text-danger">*</span></label>
@@ -51,6 +52,11 @@
 										   <input class="form-control" type="email" name="requester_email" value="{{$request->requester_email}}" required>
 										</div>
 									</div>
+
+									@else
+									 <input  type="hidden" name="requester" value="{{Auth::user()->name}}" required>
+									 <input  type="hidden" name="requester_email" value="{{Auth::user()->email}}" required>
+									@endif
 
 									<div class="col-sm-6">
 										<div class="form-group">

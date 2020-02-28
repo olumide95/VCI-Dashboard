@@ -48,7 +48,7 @@
 
                             <div class="col-md-6">
 
-                            <select class="form-control" type="text" name="roles" required>
+                            <select class="form-control" type="text" name="roles" required onchange='is_requester(this.value);'>
                                 <option value="">select Role</option>
                                 @foreach($roles as $role) 
 								 <option value="{{$role}}">{{$role}}</option>
@@ -58,6 +58,27 @@
                               @if ($errors->has('role'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('role') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+
+                        <div id="organisation" class="form-group{{ $errors->has('organisation') ? ' has-error' : '' }}" style="display:none" >
+                            <label for="name" class="col-md-4 control-label">Organisation</label>
+
+                            <div class="col-md-6">
+
+                            <select class="form-control" type="text" name="organisation">
+                                <option value="">select Organisation</option>
+                                @foreach($organisations as $organisation) 
+								 <option value="{{$organisation->user_id}}">{{$organisation->name}}</option>
+                                @endforeach
+											
+							 </select>
+                              @if ($errors->has('organisation'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('organisation') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -115,5 +136,33 @@
         </div>
 
 			
+
+@endsection
+
+
+
+@section('page_scripts')
+<script>
+
+
+	function is_requester(val){
+        
+        var organisation = document.getElementById('organisation');
+        if(val == 'Requester'){
+            
+            organisation.style.display='block';
+        }
+        else{
+             organisation.style.display='none';
+        }
+
+       
+	}
+
+
+
+</script>
+
+
 
 @endsection

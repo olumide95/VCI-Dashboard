@@ -16,6 +16,10 @@ class RoleTableSeeder extends Seeder
            ['name' => 'Admin', 'permissions' => ['role-list', 'role-create', 'role-edit', 'role-delete',  'organisation-list',  'organisation-create', 'organisation-edit', 'organisation-delete','organisations-request-list']],
            
            ['name' => 'Organisation', 'permissions' => [ 'request-list',  'request-create', 'request-edit', 'request-delete']],
+            
+           ['name' => 'Requester', 'permissions' => [ 'request-list',  'request-create', 'request-edit', 'request-delete']],
+
+           ['name' => 'Inspector', 'permissions' => [ 'report-create']],
 
 
            

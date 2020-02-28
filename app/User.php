@@ -46,6 +46,15 @@ class User extends Authenticatable
        return $this->hasRole('Organisation');
     }
 
+    public function isRequester()
+    {
+       return $this->hasRole('Requester');
+    }
+    public function isInspector()
+    {
+       return $this->hasRole('Inspector');
+    }
+
 
     public function organisation()
     {
@@ -55,6 +64,12 @@ class User extends Authenticatable
     public function request()
     {
         return $this->hasMany(Request::class, 'organisation_id', 'id');
+    }
+
+
+    public function requester()
+    {
+        return $this->hasOne(Requester::class, 'user_id', 'id');
     }
 
 

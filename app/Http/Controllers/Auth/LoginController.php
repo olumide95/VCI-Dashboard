@@ -43,11 +43,16 @@ class LoginController extends Controller
         if($user->isAdmin()){
 
            return redirect('/admin');
-        }
-        elseif($user->isOrganisation()){
+        }else if($user->isInspector()){
+
+            return redirect('admin/report/add');
+
+        }else{
 
             return redirect('/');
+
         }
+        
 
         return 'Unauthorised';
     }

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Organisation;
+use App\Requester;
 use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
@@ -35,7 +36,8 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::where('name','!=','Employee')->pluck('name','name')->all();
-        return view('users.create',compact('roles'));
+        $organisations = Organisation::all();
+        return view('users.create',compact('roles','organisations'));
     }
 
 
@@ -63,6 +65,10 @@ class UserController extends Controller
 
         if ($request->roles == 'Organisation'){
             Organisation::create(['user_id'=>$user->id,'name'=>$user->name]);
+        }
+
+        if ($request->roles == 'Requester'){
+            Requester::create(['user_id'=>$user->id,'organisation_id'=>$request->organisation]);
         }
 
 
@@ -97,8 +103,14 @@ class UserController extends Controller
         $roles = Role::pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
          
+        $organisations = Organisation::all();
 
-        return view('users.edit',compact('user','roles','userRole'));
+        $organisation_id = '';
+        if($user->isRequester()){
+            $organisation_id = $user->requester->organisation->user_id;
+        }
+
+        return view('users.edit',compact('user','roles','userRole','organisations','organisation_id'));
     }
 
 

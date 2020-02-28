@@ -26,6 +26,8 @@
 									<thead>
 										<tr>
 											<th>S/N</th>
+											<th >Req. Code</th>
+											<th >Organisation</th>
 											<th >Type</th>
 											<th>Contact Person</th>
 											<th>Contact Phone</th>
@@ -41,11 +43,13 @@
 										@foreach ($requests as $key => $request)
 										<tr>
 											<td>{{  $key+1}}</td>
+											<td>VCI-{{$request->id}}{{$request->organisation_id}}{{$request->type}}</td>
+											<td>{{ $request->organisation->name }}</td>
 											<td>{{ $request->type == 1 ? 'Vehicle Inspection' : 'Property Inspection'  }}</td>
 											<td>{{ $request->contact_person }}</td>
 											<td>{{ $request->contact_phone }}</td>
 											
-                                            <td>	<a class="btn btn-md" id="view_details" data-toggle="modal"  data-details="{{json_encode($request)}}" data-target="#view" href="#"><i class="fa fa-eye m-r-5"></i> View</a> </td>
+                                            <td>	<a class="btn btn-md view_details"  data-toggle="modal"  data-details="{{json_encode($request)}}" data-target="#view" href="#"><i class="fa fa-eye m-r-5"></i> View</a> </td>
 											
 								 			<td>{{ $request->agreed_inspection_date }}</td>
 											<td>{{ $request->agreed_inspection_time}}</td>
@@ -55,6 +59,7 @@
 													<a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
 													<ul class="dropdown-menu pull-right">
 														<li>
+														<a href="{{route('view-report')}}?r_id={{$request->id}}"><i class="fa fa-pencil m-r-5"></i> View Report</a>
 														<a  href="{{route('request-update',$request->id)}}"><i class="fa fa-pencil m-r-5"></i> Update</a>
 													<a  href="{{route('request-delete',$request->id)}}" onclick="event.preventDefault(); document.getElementById('delete-form-{{$request->id}}').submit();"><i class="fa fa-pencil m-r-5"></i> Delete</a>
                                                     <form id="delete-form-{{$request->id}}" action="{{route('request-delete',$request->id)}}" method="POST" style="display: none;">
@@ -117,7 +122,7 @@
     $('#example').DataTable();
 	});
 
-	$('#view_details').click(function() {
+	$('.view_details').click(function() {
    
 	var request = $(this).data('details');
 	$('#ins_type').html(request == 1 ? 'Vehicle Inspection' : 'Property Inspection' );

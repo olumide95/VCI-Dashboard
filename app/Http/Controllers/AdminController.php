@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Organisation;
 use App\InspectionRequest;
+use App\Report;
 use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
@@ -167,5 +168,58 @@ class AdminController extends Controller
     {
         $users = User::all();
         return view('users/alluser',['users'=>$users]);
+    }
+
+
+    public function addReport(Request $request)
+    {
+
+        $requests = InspectionRequest::where('status','Accepted')->get();
+
+        
+        if ($request->isMethod('post')) {
+
+            
+            $this->validate($request, [
+						'request_id' => 'required',
+						'inspection_date' => 'required',
+						'inspection_time' => 'required',
+						'owner' => 'required',
+						'contact_phone' => 'required',
+						'address' => 'required',
+                        'email' => 'required',
+                        'color' => 'required',
+                        'chasis_number' => 'required',
+                        'engine_number' => 'required',
+                        'odometer_reading' => 'required',
+                        'inspection_result' => 'required',
+                        'inspected_by' => 'required',
+                        'signature' => 'required',
+					]);
+
+				
+				$data =  $request->all();
+                
+                $data['body_integrity']['Full Left Side'] = $data['body_integrity']['Full Left Side']->store('Full Left Side');
+                $data['body_integrity']['Full Right Side'] = $data['body_integrity']['Full Right Side']->store('Full Right Side');
+                $data['body_integrity']['Back with License Plate'] = $data['body_integrity']['Back with License Plate']->store('Back with License Plate');
+                $data['body_integrity']['Front with License Plate'] = $data['body_integrity']['Front with License Plate']->store('Front with License Plate');
+                $data['body_integrity']['Interior Front'] = $data['body_integrity']['Interior Front']->store('Interior Front');
+                $data['body_integrity']['Interior Back'] = $data['body_integrity']['Interior Back']->store('Interior Back');
+                $data['body_integrity']['Chasis'] = $data['body_integrity']['Chasis']->store('Chasis');
+                $data['body_integrity']['Trunk'] = $data['body_integrity']['Trunk']->store('Trunk');
+                $data['body_integrity']['Spare Tyre'] = $data['body_integrity']['Spare Tyre']->store('Spare Tyre');
+
+                $data['vehicle_information']['Vehicle Papers'] = $data['vehicle_information']['Vehicle Papers']->store('Vehicle Papers');
+                $data['vehicle_information']['Purchase Receipt'] = $data['vehicle_information']['Purchase Receipt']->store('Purchase Receipt');
+
+                $data['signature'] = $data['signature']->store('signatures');
+
+                $report = Report::create($data);
+                return redirect()->route('add-report')
+                        ->with('success','Report Added successfully');
+
+        }
+        return view('addReport',compact('requests'));
     }
 }

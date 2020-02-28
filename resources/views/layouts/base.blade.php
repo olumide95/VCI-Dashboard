@@ -83,9 +83,9 @@
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
 					<ul class="dropdown-menu pull-right">
 						<li>
-							<a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> Logout
+							<a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form-mobile').submit();"> Logout
                             </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            <form id="logout-form-mobile" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                             </form>
                         </li>
@@ -94,6 +94,8 @@
             </div>
 			@includeWhen(Auth::user()->isAdmin(),'sidebar.admin')
 			@includeWhen(Auth::user()->isOrganisation(),'sidebar.organisation')
+			@includeWhen(Auth::user()->isRequester(),'sidebar.requester')
+			@includeWhen(Auth::user()->isInspector(),'sidebar.inspector')
             @yield('content')
         </div>
 		
@@ -122,7 +124,26 @@
 	toastr.info('{{Session::get('success')}}')
 
    @endif
+
+   @if(Session::has('error'))
+   
+	
+	toastr.error('{{Session::get('error')}}')
+
+   @endif
 		</script>
+
+		<script>
+        function add_chatinline() {
+            var hccid = 55194007;
+            var nt = document.createElement("script");
+            nt.async = true;
+            nt.src = "https://mylivechat.com/chatinline.aspx?hccid=" + hccid;
+            var ct = document.getElementsByTagName("script")[0];
+            ct.parentNode.insertBefore(nt, ct);
+        }
+        add_chatinline();
+    </script>
     </body>
 
 </html>

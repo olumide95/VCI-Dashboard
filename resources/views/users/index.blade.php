@@ -3,7 +3,7 @@
 
 @section('title', '| Users')
 
-@section('alluser_active', 'active')
+@section('users_active', 'active')
 
 @section('content') 
 
