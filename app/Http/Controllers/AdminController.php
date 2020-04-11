@@ -13,7 +13,7 @@ use App\Report;
 use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
-
+use App\Exports\RequestExport;
 
 class AdminController extends Controller
 {
@@ -37,8 +37,9 @@ class AdminController extends Controller
      */
     public function requests(Request $request)
     {
+        $organisations = Organisation::all();
         $requests = InspectionRequest::orderBy('created_at','Desc')->get();
-        return view('requests',compact('requests'));
+        return view('requests',compact('requests','organisations'));
     }
 
 
@@ -174,8 +175,6 @@ class AdminController extends Controller
     public function addReport(Request $request)
     {
 
-        $requests = InspectionRequest::where('status','Accepted')->get();
-
         
         if ($request->isMethod('post')) {
 
@@ -220,6 +219,50 @@ class AdminController extends Controller
                         ->with('success','Report Added successfully');
 
         }
+
+        $requests = InspectionRequest::where('status','Accepted')->get();
+
         return view('addReport',compact('requests'));
     }
+
+
+
+    public function uploadReport(Request $request)
+    {
+
+        if ($request->isMethod('post')) {
+            $this->validate($request, [
+                            'request_id' => 'required',
+                            'report_file' => 'required|file',
+                        ]);
+
+            $data =  $request->all();
+
+            $data['report_file'] = $data['report_file']->store('reports');
+
+            $data['is_file'] = true;
+
+            $report = Report::create($data);
+
+            return redirect()->route('add-report-file')
+                            ->with('success','Report Added successfully');
+        }
+
+        $requests = InspectionRequest::where('status','Accepted')->get();
+
+        return view('add-report-file',compact('requests'));
+
+    }
+
+    public function request_report(Request $request)
+    {
+       
+        $type = $request->type;
+        $organisation = $request->organisation;
+        
+        return (new RequestExport($type,$organisation))->download('invoices.xlsx');
+    }
+
+
+
 }

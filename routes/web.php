@@ -11,14 +11,14 @@
 |
 */
 
-
-
 Route::auth();
 
 
 Route::get('register', function () {
 	    return 'You are not authorised to utilize this resource';
 });
+
+
 
 Route::get('/', 'HomeController@organisationDashboard')->name('organisation-dashboard');
 
@@ -51,6 +51,7 @@ Route::group(['prefix'=>'admin','middleware' => 'role:Admin'], function(){
  Route::get('/organisations','AdminController@organisations')->name('organisations');
  Route::get('/requests','AdminController@requests')->name('organisations-requests');
  Route::get('/requests/update/status/{id}','OrganisationController@updateStatus')->name('status-update');
+ Route::post('/request/report','AdminController@request_report')->name('request-report');
 
 });
 
@@ -58,7 +59,7 @@ Route::group(['prefix'=>'admin','middleware' => 'role:Admin'], function(){
 Route::group(['prefix'=>'admin','middleware' => 'role:Admin|Inspector'], function(){
 
 Route::any('/report/add', 'AdminController@addReport')->name('add-report');
-
+Route::any('/report/upload', 'AdminController@uploadReport')->name('add-report-file');
 });
 
 Route::get('unauthorised', function () {

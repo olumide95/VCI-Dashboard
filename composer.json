@@ -1,16 +1,19 @@
 {
     "name": "laravel/laravel",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
         "php": ">=5.6.4",
         "consoletvs/charts": "5.*",
-        "dena-a/laravel-elastic-email": "^1.1",
         "guzzlehttp/guzzle": "^6.3",
-        "laravel/framework": "5.4.*",
+        "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
+        "maatwebsite/excel": "^3.1",
         "phpmailer/phpmailer": "^6.0",
         "spatie/laravel-permission": "^2.4"
     },

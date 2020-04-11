@@ -173,7 +173,7 @@
 									</div>
 									<div class="col-sm-6">
 										<div class="form-group">
-											<label class="control-label">State<span class="text-danger">*</span></label>
+											<label class="control-label">Address<span class="text-danger">*</span></label>
 											<input class="form-control" type="text" name="State" value="{{old('State')}}">
 										</div>
 									</div>

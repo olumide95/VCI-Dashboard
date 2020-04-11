@@ -220,7 +220,12 @@ class OrganisationController extends Controller
 			$type = 'Property Inspection';
 		}
 
-		if($request->status == 'pending'){
+
+		if($request->status == 'Accepted'){
+			$request->update(['status'=>'Completed']);
+		}
+
+		elseif($request->status == 'pending'){
 
 			$request->update(['status'=>'Accepted']);
 
@@ -233,9 +238,7 @@ class OrganisationController extends Controller
 			});
 		}
 
-		if($request->status == 'Accepted'){
-			$request->update(['status'=>'Completed']);
-		}
+		
 		
 		$data = [];
 		$data['email'] = $organisation->email;

@@ -167,7 +167,7 @@ return [
          * Package Service Providers...
          */
         Laravel\Tinker\TinkerServiceProvider::class,
-        Dena\LaravelElasticEmail\MailServiceProvider::class,
+       // Dena\LaravelElasticEmail\MailServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -179,6 +179,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         // charts
         ConsoleTVs\Charts\ChartsServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class
 
     ],
 
@@ -231,7 +232,8 @@ return [
         // 'Charts' => ConsoleTVs\Charts\ChartsServiceProvider::class,
         'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
         // 'Elastic-Mail' => Rdanusha\LaravelElasticEmail\MailServiceProvider::class,
-        'Elastic-Mail' =>Dena\LaravelElasticEmail\MailServiceProvider::class,
+        //'Elastic-Mail' =>Dena\LaravelElasticEmail\MailServiceProvider::class,
+       'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

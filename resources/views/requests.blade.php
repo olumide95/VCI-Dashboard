@@ -19,6 +19,48 @@
 					<div class="row filter-row">
 						
                     </div>
+
+					<form class="m-b-30" action="{{url('admin/request/report')}}" method="POST" enctype="multipart/form-data" role="form" >
+						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+								<div class="row">
+						<div class="col-sm-3">
+
+							<div class="form-group">
+
+								<select class="form-control" name="type" required>
+									<option value="" >Select Request</option>
+									<option value="1" >Vehicle Request</option>
+									<option value="2" >Property Request</option>
+										
+								</select>
+							</div>
+					 	</div>
+
+						 <div class="col-sm-3">
+
+							<div class="form-group">
+
+								<select class="form-control" name="organisation" required>
+									<option value="" >Select Organisation</option>
+									@foreach ($organisations as $organisation)
+									<option value="{{$organisation->user_id}}" >{{$organisation->name}}</option>
+									@endforeach
+								</select>
+							</div>
+					 	</div>
+
+
+						 <div class="col-sm-3">
+
+							<div class="form-group">
+											<button class="btn btn-primary" type="submit">Generate Excel Report</button>
+										</div>
+					 	</div>
+                    
+					</div>
+</form>
+					
+					
 					<div class="row">
 						<div class="col-md-12">
 							<div class="table-responsive ">

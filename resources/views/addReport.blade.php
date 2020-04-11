@@ -914,7 +914,7 @@
 
 
 								 
-								 <div class="col-md-12 text-center"> <button class="btn btn-primary" type="submit">Submit Request</button> </div>
+								 <div class="col-md-12 text-center"> <button class="btn btn-primary" type="submit">Submit Report</button> </div>
 									
 								
 							</form>
