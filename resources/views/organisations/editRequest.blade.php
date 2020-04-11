@@ -74,6 +74,19 @@
 									</div>
 									<div class="col-sm-6">
 										<div class="form-group">
+											<label class="control-label">Owner's Name <span class="text-danger">*</span></label>
+											<input class="form-control" type="text" name="owner_name" value="{{$request->owner_name}}" required>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="control-label">Owner's Phone <span class="text-danger">*</span></label>
+											<input class="form-control" type="text" name="owner_phone" value="{{$request->owner_phone}}" required>
+										</div>
+									</div>
+
+									<div class="col-sm-6">
+										<div class="form-group">
 											<label class="control-label">Contact Person <span class="text-danger">*</span></label>
 											<input class="form-control" type="text" name="contact_person" value="{{$request->contact_person}}">
 										</div>

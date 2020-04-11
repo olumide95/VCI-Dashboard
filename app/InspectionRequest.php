@@ -10,7 +10,7 @@ class InspectionRequest extends Model
     use SoftDeletes;
     protected $table = 'requests';
 
-    protected $fillable =  ['organisation_id','type', 'details', 'agreed_inspection_date','agreed_inspection_time', 'contact_person','contact_phone','requester','requester_email','status'];
+    protected $fillable =  ['organisation_id','type', 'details', 'agreed_inspection_date','agreed_inspection_time','owner_name','owner_phone', 'contact_person','contact_phone','requester','requester_email','status'];
 
     protected $casts = [ 'details' => 'array'];
     

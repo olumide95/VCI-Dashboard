@@ -28,7 +28,8 @@
 											<th>S/N</th>
 											<th >Req. Code</th>
 											<th >Type</th>
-											
+											<th>Owner</th>
+											<th>Owner Phone</th>
 											<th>Contact Person</th>
 											<th>Contact Phone</th>
 											<th>Details</th>
@@ -44,6 +45,8 @@
 											<td>{{  $key+1 }}</td>
 											<td>VCI-{{$request->id}}{{$request->organisation_id}}{{$request->type}}</td>
 											<td>{{ $request->type == 1 ? 'Vehicle Inspection' : 'Property Inspection' }}</td>
+											 <td>{{ $request->owner_name }}</td>
+											<td>{{ $request->owner_phone }}</td>
                                             <td>{{ $request->contact_person }}</td>
 											<td>{{ $request->contact_phone }}</td>
 										 <td>	<a class="btn btn-md view_details"   data-toggle="modal"  data-details="{{json_encode($request)}}" data-target="#view" href="#"><i class="fa fa-eye m-r-5"></i> View</a> </td>
@@ -100,14 +103,17 @@
 							<p >
 								Requested By - <b><span id="requester"> </span> (<span id="requester_email"> </span>)</b>
 							</p>
-
+							<p >
+								Owner - <b><span id="owner"> </span> (<span id="owner_phone"> </span>)</b>
+							</p>
+			
 							<p >
 								Contact Person - <b><span id="contact"> </span> (<span id="contact_phone"> </span>)</b>
 							</p>
 							<p >
 								Inspection Date/Time - <b>(<span id="ins_date"> </span> @ <span id="ins_time"> </span>)</b>
 							</p>
-							 <span id="details-section"> </span>
+							 <span id="details-section" style="text-transform: capitalize;"> </span>
 						</div>
 					</div>
 				</div>
@@ -131,12 +137,15 @@
 	$('#requester_email').html(request.requester_email );
 	$('#contact').html(request.contact_person );
 	$('#contact_phone').html(request.contact_phone);
+	$('#owner').html(request.owner_name);
+	$('#owner_phone').html(request.owner_phone);
 	$('#ins_time').html(request.agreed_inspection_time );
 	$('#ins_date').html(request.agreed_inspection_date ); 
 	 
 	 var info = '';
 	for(var detail in request.details){
-		info+='<p> '+detail+' - <b>'+request.details[detail]+ ' </b></p>';
+		console.log(detail);
+		info+='<p> '+(detail === 'State' ? 'Address':detail.replace(/_/g, " "))+' - <b>'+request.details[detail]+ ' </b></p>';
 	 
 	}
 	$('#details-section').html(info);

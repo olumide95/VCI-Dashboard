@@ -13,6 +13,7 @@ use App\Organisation;
 use Spatie\Permission\Models\Role;
 use Hash;
 use Illuminate\Support\Facades\Auth;
+use Storage;
 class OrganisationController extends Controller
 {
     public function addRequest(Request $request)
@@ -24,16 +25,18 @@ class OrganisationController extends Controller
 						'agreed_inspection_time' => 'required',
 						'contact_person' => 'required',
 						'contact_phone' => 'required',
+						'owner_name' => 'required',
+						'owner_phone' => 'required',
 						'requester' => 'required',
 						'requester_email' => 'required',
 					]);
 
 				
-				$data =  $request->only(['type','agreed_inspection_date','agreed_inspection_time','contact_person','contact_phone','requester','requester_email']);
+				$data =  $request->only(['type','agreed_inspection_date','agreed_inspection_time','contact_person','contact_phone','owner_name','owner_phone','requester','requester_email']);
 				
 				$type = 'Vehicle Inspection';
 				if($request->type == '1'){
-					$details = $request->except(['type','agreed_inspection_date','agreed_inspection_time','contact_person','contact_phone','requester','requester_email','property_description','property_specification']);
+					$details = $request->except(['type','agreed_inspection_date','agreed_inspection_time','contact_person','contact_phone','owner_name','owner_phone','requester','requester_email','property_description','property_specification']);
 				}
 				else{
 					$type = 'Property Inspection';
@@ -107,16 +110,18 @@ class OrganisationController extends Controller
 						'agreed_inspection_time' => 'required',
 						'contact_person' => 'required',
 						'contact_phone' => 'required',
+						'owner_name' => 'required',
+						'owner_phone' => 'required',
 						'requester' => 'required',
 						'requester_email' => 'required',
 				]);
 
 						
-				$data =  $request->only(['type','agreed_inspection_date','agreed_inspection_time','contact_person','contact_phone','requester','requester_email']);
+				$data =  $request->only(['type','agreed_inspection_date','agreed_inspection_time','contact_person','contact_phone','owner_name','owner_phone','requester','requester_email']);
 				
 				$type = 'Vehicle Inspection';
 				if($request->type == '1'){
-					$details = $request->except(['type','agreed_inspection_date','agreed_inspection_time','contact_person','contact_phone','requester','requester_email','property_description','property_specification']);
+					$details = $request->except(['type','agreed_inspection_date','agreed_inspection_time','owner_name','owner_phone','contact_person','contact_phone','requester','requester_email','property_description','property_specification']);
 				}
 				else{
 					$type = 'Property Inspection';
@@ -296,6 +301,10 @@ class OrganisationController extends Controller
 		
 		$ins_request = InspectionRequest::find($request->r_id);
 		$report = Report::where('request_id',$request->r_id)->latest()->first();
+
+		if($report->is_file){
+			return Storage::download($report->report_file);
+		}
 
 		if(!isset($report->id)){
 			return redirect()->back()->with('error',"Report doesn't exist for this request");

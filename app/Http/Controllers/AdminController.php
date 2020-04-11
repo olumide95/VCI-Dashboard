@@ -254,7 +254,7 @@ class AdminController extends Controller
 
     }
 
-    public function request_report(Request $request)
+    public function requests_report(Request $request)
     {
        
         $type = $request->type;

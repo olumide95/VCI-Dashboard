@@ -74,14 +74,27 @@
 									</div>
 									<div class="col-sm-6">
 										<div class="form-group">
+											<label class="control-label">Owner's Name <span class="text-danger">*</span></label>
+											<input class="form-control" type="text" name="owner_name" value="{{old('owner_name')}}" required>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="control-label">Owner's Phone <span class="text-danger">*</span></label>
+											<input class="form-control" type="text" name="owner_phone" value="{{old('owner_phone')}}" required>
+										</div>
+									</div>
+
+									<div class="col-sm-6">
+										<div class="form-group">
 											<label class="control-label">Contact Person <span class="text-danger">*</span></label>
-											<input class="form-control" type="text" name="contact_person" value="{{old('contact_person')}}">
+											<input class="form-control" type="text" name="contact_person" value="{{old('contact_person')}}" required>
 										</div>
 									</div>
 									<div class="col-sm-6">
 										<div class="form-group">
 											<label class="control-label">Contact Phone <span class="text-danger">*</span></label>
-											<input class="form-control" type="number" name="contact_phone" value="{{old('contact_phone')}}">
+											<input class="form-control" type="number" name="contact_phone" value="{{old('contact_phone')}}" required>
 										</div>
 									</div>
 
@@ -208,6 +221,11 @@
 	 else if(val=='2') {
 	   vehicle.style.display='none';
 	   property.style.display='block';
+
+	 }
+	 else if(val=='') {
+	   vehicle.style.display='none';
+	   property.style.display='none';
 
 	 }
 	}

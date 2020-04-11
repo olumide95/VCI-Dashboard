@@ -51,7 +51,7 @@ Route::group(['prefix'=>'admin','middleware' => 'role:Admin'], function(){
  Route::get('/organisations','AdminController@organisations')->name('organisations');
  Route::get('/requests','AdminController@requests')->name('organisations-requests');
  Route::get('/requests/update/status/{id}','OrganisationController@updateStatus')->name('status-update');
- Route::post('/request/report','AdminController@request_report')->name('request-report');
+ Route::post('/request/report','AdminController@requests_report')->name('request-report');
 
 });
 
