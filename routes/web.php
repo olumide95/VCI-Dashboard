@@ -52,6 +52,9 @@ Route::group(['prefix'=>'admin','middleware' => 'role:Admin'], function(){
  Route::get('/requests','AdminController@requests')->name('organisations-requests');
  Route::get('/requests/update/status/{id}','OrganisationController@updateStatus')->name('status-update');
  Route::post('/request/report','AdminController@requests_report')->name('request-report');
+ Route::get('migrate', function () {
+		Artisan::call('migrate');
+ });
 
 });
 
