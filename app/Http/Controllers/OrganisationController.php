@@ -302,13 +302,15 @@ class OrganisationController extends Controller
 		$ins_request = InspectionRequest::find($request->r_id);
 		$report = Report::where('request_id',$request->r_id)->latest()->first();
 
+		
+		if(!isset($report->id)){
+			return redirect()->back()->with('error',"Report doesn't exist for this request");
+		}
+
 		if($report->is_file){
 			return Storage::download($report->report_file);
 		}
 
-		if(!isset($report->id)){
-			return redirect()->back()->with('error',"Report doesn't exist for this request");
-		}
 		
 		return view('report',compact('report','ins_request'));
 	}

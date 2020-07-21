@@ -3,7 +3,7 @@
 
 @section('title', '| Add Report')
 
-@section('add-report_active', 'active')
+@section('add-report-file_active', 'active')
 
 @section('content') 
 
