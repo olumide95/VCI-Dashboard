@@ -103,7 +103,7 @@ class UserController extends Controller
         $roles = Role::pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
          
-        $organisations = Organisation::all();
+        $organisations = Organisation::where('user_id','!=',$user->id)->get();
 
         $organisation_id = '';
         if($user->isRequester()){
@@ -123,7 +123,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
@@ -142,6 +142,51 @@ class UserController extends Controller
 
         $user = User::find($id);
         $user->update($input);
+
+        $role = $request->input('roles');
+
+        if($user->isRequester() && !empty($role) && $role !== 'Requester'){
+
+             if ($role == 'Organisation'){
+
+                $organisation = Organisation::where('user_id',$user->id)->onlyTrashed()->first();
+
+                if($organisation){
+                    $organisation->restore();
+                }
+                else{
+                    Organisation::create(['user_id'=>$user->id,'name'=>$user->name]);
+                }
+
+            }
+            
+                
+            Requester::where('user_id',$user->id)->delete();
+
+        }
+
+        if($user->isOrganisation() && !empty($role) && $role !== 'Organisation'){
+
+             if ($role == 'Requester'){
+
+                $requester = Requester::where('user_id',$user->id)->onlyTrashed()->first();
+
+                if($requester){
+                    $requester->restore();
+                    $requester->update(['organisation_id'=>$request->organisation]);
+                }
+                else{
+                    Requester::create(['user_id'=>$user->id,'organisation_id'=>$request->organisation]);
+                }
+
+            }
+            
+                
+            Organisation::where('user_id',$user->id)->delete();
+
+        }
+
+
         DB::table('model_has_roles')->where('model_id',$id)->delete();
 
 

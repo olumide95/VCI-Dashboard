@@ -9,7 +9,7 @@
   <div class="page-wrapper">
                 <div class="content container-fluid">
 					<div class="row">
-						<div class="col-xs-4">
+						<div class="col-xs-12">
 							<h4 class="page-title">Update {{ $user->name }}</h4>
 						</div>
 					</div>
@@ -48,7 +48,7 @@
 
                             <div class="col-md-6">
 
-                            <select class="form-control" type="text" name="roles" required>
+                            <select class="form-control" type="select" name="roles" id="role" required>
                                 <option value="">select Role</option>
                                 @foreach($roles as $role) 
 								 <option value="{{$role}}" @if(isset($userRole[$role])) {{'selected'}} @endif>{{$role}}</option>
@@ -68,7 +68,7 @@
 
                             <div class="col-md-6">
 
-                            <select class="form-control" type="text" name="organisation" required>
+                            <select class="form-control" type="text" name="organisation" id="organisation_input" required>
                                 <option value="">select Organisation</option>
                                 @foreach($organisations as $organisation) 
 								 <option value="{{$organisation->user_id}}" @if($organisation_id == $organisation->user_id) {{'selected'}} @endif >{{$organisation->name}}</option>
@@ -142,16 +142,31 @@
 <script>
 
 $( document ).ready(function() {
+
+    show_hide_organisation('{{$userRole['Requester'] ?? ''}}');
+
+});
+
+function show_hide_organisation(role){
     var organisation = document.getElementById('organisation');
-        if('{{$userRole['Requester'] ?? ''}}' == 'Requester'){
-            
+    var organisation_input = document.getElementById('organisation_input');
+        if(role == 'Requester'){
+            organisation_input.required = true;
             organisation.style.display='block';
+             
         }
         else{
+            organisation_input.required = false;
              organisation.style.display='none';
+             
         }
+}
+
+$("#role").change(function(){
+        
+    show_hide_organisation($(this).children("option:selected").val());
 });
-	 
+
 </script>
 
 
